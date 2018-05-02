@@ -49,7 +49,8 @@ class RestArchiverSpec : Spek({
     }
 
     given("a valid request") {
-        val request = ArchiveRequest(messageId = "1", messageContent = "hello".toByteArray(), sender = "sender", receiver = "receiver")
+        val request = ArchiveRequest(messageId = "1", messageContent = "hello".toByteArray(), sender = "sender",
+                receiver = "receiver")
         given("valid credentials") {
             val archiver = RestArchiver(username, password, url)
             on("archiveDocument") {
@@ -67,7 +68,7 @@ class RestArchiverSpec : Spek({
             }
         }
         given("invalid credentials") {
-            val archiver = RestArchiver(username,wrongPassword, url)
+            val archiver = RestArchiver(username, wrongPassword, url)
             on("archiveDocument") {
                 val archiveId = { archiver.archiveDocument(request) }
                 val expectedErrorMessage = "HTTP Exception 401 Unauthorized"
