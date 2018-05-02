@@ -46,7 +46,7 @@ RestArchiver archiver = new RestArchiver(
     "username",                 // String, username to be used for Basic Auth
     "password",                 // String, password to be used for Basic Auth
     "https://url.to/endpoint"   // String, endpoint URL for Juridisk Logg
-)
+);
 ```
 
 Kotlin:
@@ -62,12 +62,12 @@ val archiver = RestArchiver(
 
 Java:
 ```java
-String archiveId = archiver.archiveDocument(request)
+String archiveId = archiver.archiveDocument(request);
 ```
 
 Kotlin:
 ```kotlin
-val archiveId = archiver.archive(request)
+val archiveId = archiver.archiveDocument(request)
 ```
 
 ## Contact
