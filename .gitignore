@@ -1,0 +1,12 @@
+# IDEA files
+target/
+*.iml
+.idea/
+/*.db
+*.jks
+*.jts
+
+# Gradle
+out/
+build/
+.gradle/
