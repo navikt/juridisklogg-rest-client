@@ -33,8 +33,8 @@ val request = ArchiveRequest(
     messageId = "123-abc",                      // String
     messageContent = "hello".tobyteArray(),     // ByteArray
     sender = "sender",                          // String
-    receiver = "receiver"                       // String
-    joarkReference = "ref"                      // String, optional
+    receiver = "receiver",                      // String
+    joarkReference = "ref",                     // String, optional
     retentionInYears = 10                       // Int, optional, default is 10
 )
 ```
@@ -52,9 +52,9 @@ RestArchiver archiver = new RestArchiver(
 Kotlin:
 ```kotlin
 val archiver = RestArchiver(
-    username = "username"   // String, username to be used for Basic Auth
-    password = "password"   // String, password to be used for Basic Auth
-    url = "url"             // String, endpoint URL for Juridisk Logg
+    username = "username",          // String, username to be used for Basic Auth
+    password = "password",          // String, password to be used for Basic Auth
+    url = "https://url.to/endpoint" // String, endpoint URL for Juridisk Logg
 )
 ```
 
