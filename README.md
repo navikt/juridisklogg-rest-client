@@ -27,7 +27,7 @@ ArchiveReqeuest request = new ArchiveRequest.Builder();
     .build();
 ```
 
-Kotlin (you could use the builder here too... but Kotlin has named parameters for its constructors):
+Kotlin (you could use the builder here too... but Kotlin has named arguments):
 ```kotlin
 val request = ArchiveRequest(
     messageId = "123-abc",                      // String
