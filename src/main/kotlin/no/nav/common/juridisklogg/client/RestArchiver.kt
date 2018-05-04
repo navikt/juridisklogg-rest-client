@@ -2,7 +2,8 @@ package no.nav.common.juridisklogg.client
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.result.Result
+import com.github.kittinunf.result.Result.Success
+import com.github.kittinunf.result.Result.Failure
 import org.slf4j.LoggerFactory
 import java.lang.Exception
 
@@ -34,10 +35,10 @@ class RestArchiver(var username: String, var password: String, var url: String) 
         logger.debug("Response: {}", response.toString())
 
         when (result) {
-            is Result.Failure -> {
+            is Failure -> {
                 throw result.getException().exception
             }
-            is Result.Success -> {
+            is Success -> {
                 return mapper.readTree(result.get()).get("id").asText()
             }
         }

@@ -28,38 +28,13 @@ data class ArchiveRequest(
         fun setJoarkRef(joarkReference: String): Builder = apply { this.joarkReference = joarkReference }
         fun setRetention(retentionInYears: Int): Builder = apply { this.retentionInYears = retentionInYears }
 
-        fun build(): ArchiveRequest {
-            return when {
-                (joarkReference == null && retentionInYears == null) -> {
-                    ArchiveRequest(
-                            messageId = messageId,
-                            sender = sender,
-                            receiver = receiver,
-                            messageContent = messageContent)
-                }
-                (joarkReference == null && retentionInYears != null) -> {
-                    ArchiveRequest(messageId = messageId,
-                            sender = sender,
-                            receiver = receiver,
-                            messageContent = messageContent,
-                            retentionInYears = retentionInYears)
-                }
-                (joarkReference != null && retentionInYears == null) -> {
-                    ArchiveRequest(messageId = messageId,
-                            sender = sender,
-                            receiver = receiver,
-                            messageContent = messageContent,
-                            joarkReference = joarkReference)
-                }
-                else -> {
-                    ArchiveRequest(messageId = messageId,
-                            sender = sender,
-                            receiver = receiver,
-                            messageContent = messageContent,
-                            joarkReference = joarkReference,
-                            retentionInYears = retentionInYears)
-                }
-            }
-        }
+        fun build(): ArchiveRequest = ArchiveRequest(
+            messageId = messageId,
+            sender = sender,
+            receiver = receiver,
+            messageContent = messageContent,
+            retentionInYears = retentionInYears,
+            joarkReference = joarkReference
+        )
     }
 }
