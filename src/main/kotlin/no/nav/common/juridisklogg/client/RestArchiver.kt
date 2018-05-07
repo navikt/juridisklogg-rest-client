@@ -18,13 +18,13 @@ class RestArchiver(var username: String, var password: String, var url: String) 
      * Archives the document to Legal Archive by sending a POST request with the given ArchiveRequest instance,
      * returning the ID of the archive as a String if successful.
      * The method will throw an exception if the request resulted in an error
-     * @param   request     an instance of ArchiveRequest - the body to be sent
-     * @return              the ID of the archive if the operation was successful
-     * @throws  Exception   if the request resulted in an error response from the endpoint
+     * @param request an instance of ArchiveRequest - the body to be sent
+     * @return the ID of the archive if the operation was successful
+     * @throws Exception if the request resulted in an error response from the endpoint
      */
 
     @Throws(Exception::class)
-    fun archiveDocument(archiveRequest: ArchiveRequest) : String {
+    fun archiveDocument(archiveRequest: ArchiveRequest): String {
         val (request, response, result) = Fuel.post(url)
             .header("Content-Type" to "application/json")
             .body(mapper.writeValueAsString(archiveRequest))

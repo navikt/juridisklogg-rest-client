@@ -10,7 +10,8 @@ data class ArchiveRequest(
     @JsonProperty(value = "mottaker", required = true) val receiver: String,
     @JsonProperty(value = "meldingsInnhold", required = true) var messageContent: ByteArray,
     @JsonProperty(value = "joarkRef") val joarkReference: String? = null,
-    @JsonProperty(value = "antallAarLagres") val retentionInYears: Int? = null) {
+    @JsonProperty(value = "antallAarLagres") val retentionInYears: Int? = null
+) {
 
     // Builder class for "simplified" Java construction
     class Builder {
