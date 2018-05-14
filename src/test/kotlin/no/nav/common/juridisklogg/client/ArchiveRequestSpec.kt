@@ -5,7 +5,8 @@ import org.amshove.kluent.shouldEqual
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
-import org.jetbrains.spek.api.dsl.on
+import org.jetbrains.spek.data_driven.data
+import org.jetbrains.spek.data_driven.on
 import java.nio.charset.Charset
 import java.util.Base64
 
@@ -21,91 +22,29 @@ class ArchiveRequestSpec : Spek({
     val content = "test".toByteArray()
     val contentEncoded = encoder.encode(content).toString(Charset.forName("UTF-8"))
 
-    given("a request with required parameters only") {
-        val expected = "{\"meldingsId\":\"$id\",\"avsender\":\"$sender\",\"mottaker\":\"$receiver\",\"meldingsInnhold\":\"$contentEncoded\"}"
-        on("new ArchiveRequest") {
-            val request = ArchiveRequest(messageId = id, messageContent = content, sender = sender, receiver = receiver)
-            it("should correctly serialize to JSON") {
-                mapper.writeValueAsString(request) shouldEqual expected
-            }
-        }
-        on("new ArchiveRequestBuilder") {
-            val request = ArchiveRequest.Builder()
-                    .setMessageId(id)
-                    .setMessageContent(content)
-                    .setSender(sender)
-                    .setReceiver(receiver)
-                    .build()
-            it("should correctly serialize to JSON") {
-                mapper.writeValueAsString(request) shouldEqual expected
-            }
-        }
-    }
-
-    given("a request with required parameters and Joark Reference") {
-        val expected = "{\"meldingsId\":\"$id\",\"avsender\":\"$sender\",\"mottaker\":\"$receiver\",\"meldingsInnhold\":\"$contentEncoded\",\"joarkRef\":\"$joarkRef\"}"
-        on("new ArchiveRequest") {
-            val request = ArchiveRequest(messageId = id, messageContent = content, sender = sender, receiver = receiver,
-                    joarkReference = joarkRef)
-            it("should correctly serialize to JSON") {
-                mapper.writeValueAsString(request) shouldEqual expected
-            }
-        }
-        on("new ArchiveRequestBuilder") {
-            val request = ArchiveRequest.Builder()
-                    .setMessageId(id)
-                    .setMessageContent(content)
-                    .setSender(sender)
-                    .setReceiver(receiver)
-                    .setJoarkRef(joarkRef)
-                    .build()
-            it("should correctly serialize to JSON") {
-                mapper.writeValueAsString(request) shouldEqual expected
-            }
-        }
-    }
-
-    given("a request with required parameters and Retention specified") {
-        val expected = "{\"meldingsId\":\"$id\",\"avsender\":\"$sender\",\"mottaker\":\"$receiver\",\"meldingsInnhold\":\"$contentEncoded\",\"antallAarLagres\":$retention}"
-        on("new ArchiveRequest") {
-            val request = ArchiveRequest(messageId = id, messageContent = content, sender = sender, receiver = receiver,
-                    retentionInYears = retention)
-            it("should correctly serialize to JSON") {
-                mapper.writeValueAsString(request) shouldEqual expected
-            }
-        }
-        on("new ArchiveRequestBuilder") {
-            val request = ArchiveRequest.Builder()
-                    .setMessageId(id)
-                    .setMessageContent(content)
-                    .setSender(sender)
-                    .setReceiver(receiver)
-                    .setRetention(retention)
-                    .build()
-            it("should correctly serialize to JSON") {
-                mapper.writeValueAsString(request) shouldEqual expected
-            }
-        }
-    }
-
-    given("a request with all parameters") {
-        val expected = "{\"meldingsId\":\"$id\",\"avsender\":\"$sender\",\"mottaker\":\"$receiver\",\"meldingsInnhold\":\"$contentEncoded\",\"joarkRef\":\"$joarkRef\",\"antallAarLagres\":$retention}"
-        on("new ArchiveRequest") {
-            val request = ArchiveRequest(messageId = id, messageContent = content, sender = sender, receiver = receiver,
-                    joarkReference = joarkRef, retentionInYears = retention)
-            it("should correctly serialize to JSON") {
-                mapper.writeValueAsString(request) shouldEqual expected
-            }
-        }
-        on("new ArchiveRequestBuilder") {
-            val request = ArchiveRequest.Builder()
-                    .setMessageId(id)
-                    .setMessageContent(content)
-                    .setSender(sender)
-                    .setReceiver(receiver)
-                    .setJoarkRef(joarkRef)
-                    .setRetention(retention)
-                    .build()
+    given("new ArchiveRequests") {
+        on("%s",
+            data("request with required parameters only",
+                ArchiveRequest.Builder().setMessageId(id).setMessageContent(content).setSender(sender)
+                    .setReceiver(receiver).build(),
+                expected = "{\"meldingsId\":\"$id\",\"avsender\":\"$sender\",\"mottaker\":\"$receiver\",\"meldingsInnhold\":\"$contentEncoded\"}"
+            ),
+            data("request with required parameters and joark reference",
+                ArchiveRequest.Builder().setMessageId(id).setMessageContent(content).setSender(sender)
+                    .setReceiver(receiver).setJoarkRef(joarkRef).build(),
+                expected = "{\"meldingsId\":\"$id\",\"avsender\":\"$sender\",\"mottaker\":\"$receiver\",\"meldingsInnhold\":\"$contentEncoded\",\"joarkRef\":\"$joarkRef\"}"
+            ),
+            data("request with required parameters and retention",
+                ArchiveRequest.Builder().setMessageId(id).setMessageContent(content).setSender(sender)
+                    .setReceiver(receiver).setRetention(retention).build(),
+                expected = "{\"meldingsId\":\"$id\",\"avsender\":\"$sender\",\"mottaker\":\"$receiver\",\"meldingsInnhold\":\"$contentEncoded\",\"antallAarLagres\":$retention}"
+            ),
+            data("request with all parameters",
+                ArchiveRequest.Builder().setMessageId(id).setMessageContent(content).setSender(sender)
+                        .setReceiver(receiver).setJoarkRef(joarkRef).setRetention(retention).build(),
+                expected = "{\"meldingsId\":\"$id\",\"avsender\":\"$sender\",\"mottaker\":\"$receiver\",\"meldingsInnhold\":\"$contentEncoded\",\"joarkRef\":\"$joarkRef\",\"antallAarLagres\":$retention}"
+            )
+        ) { _, request, expected ->
             it("should correctly serialize to JSON") {
                 mapper.writeValueAsString(request) shouldEqual expected
             }
