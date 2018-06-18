@@ -9,11 +9,6 @@ import java.lang.Exception
 
 class RestArchiver(var username: String, var password: String, var url: String) {
 
-    companion object {
-        @JvmStatic private val logger = LoggerFactory.getLogger(RestArchiver::class.java)
-        @JvmStatic val mapper = jacksonObjectMapper()
-    }
-
     /**
      * Archives the document to Legal Archive by sending a POST request with the given ArchiveRequest instance,
      * returning the ID of the archive as a String if successful.
@@ -42,5 +37,10 @@ class RestArchiver(var username: String, var password: String, var url: String) 
                 return mapper.readTree(result.get()).get("id").asText()
             }
         }
+    }
+
+    companion object {
+        @JvmStatic private val logger = LoggerFactory.getLogger(RestArchiver::class.java)
+        @JvmStatic val mapper = jacksonObjectMapper()
     }
 }
