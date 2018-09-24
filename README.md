@@ -10,7 +10,7 @@ Simple client library for archiving messages to the new "Juridisk Logg" using it
 <dependency>
     <groupId>no.nav.common</groupId>
     <artifactId>juridisklogg-rest-client</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.5</version>
 </dependency>
 ```
 
