@@ -34,7 +34,7 @@ test {
 }
 
 group 'no.nav.common'
-version '1.0.5'
+version '1.0.6'
 sourceCompatibility = 1.8
 compileKotlin { kotlinOptions.jvmTarget = "1.8" }
 compileTestKotlin { kotlinOptions.jvmTarget = "1.8" }
@@ -53,8 +53,8 @@ dependencies {
         "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version",
         "org.slf4j:slf4j-api:$slf4j_version",
         "io.ktor:ktor-client-core:$ktor_version",
-        "io.ktor:ktor-client-apache:$ktor_version"
-    compile "io.ktor:ktor-client-auth-basic:$ktor_version",
+        "io.ktor:ktor-client-apache:$ktor_version",
+        "io.ktor:ktor-client-auth-basic:$ktor_version",
         "io.ktor:ktor-client-json:$ktor_version",
         "io.ktor:ktor-client-jackson:$ktor_version"
     testImplementation "org.jetbrains.spek:spek-api:$spek_version",
