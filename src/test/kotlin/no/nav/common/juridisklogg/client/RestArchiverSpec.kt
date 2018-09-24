@@ -13,7 +13,6 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldThrow
 import org.amshove.kluent.withMessage
-import org.apache.http.HttpException
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
@@ -74,7 +73,7 @@ class RestArchiverSpec : Spek({
                 val archiveId = { archiver.archiveDocument(request) }
                 val expectedErrorMessage = "HTTP Exception 401 Unauthorized"
                 it("should throw an exception with error message: $expectedErrorMessage") {
-                    archiveId shouldThrow HttpException::class withMessage expectedErrorMessage
+                    archiveId shouldThrow Exception::class withMessage expectedErrorMessage
                 }
                 it("should have sent a request to the server") {
                     server.verify(1, postRequestedFor(urlEqualTo("/archive"))
