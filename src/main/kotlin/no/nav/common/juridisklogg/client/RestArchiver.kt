@@ -6,8 +6,9 @@ import com.github.kittinunf.result.Result.Success
 import com.github.kittinunf.result.Result.Failure
 import org.slf4j.LoggerFactory
 import java.lang.Exception
+import java.lang.RuntimeException
 
-class RestArchiver(var username: String, var password: String, var url: String) {
+class RestArchiver(private val username: String, private val password: String, private val url: String) {
 
     /**
      * Archives the document to Legal Archive by sending a POST request with the given ArchiveRequest instance,
@@ -15,7 +16,7 @@ class RestArchiver(var username: String, var password: String, var url: String) 
      * The method will throw an exception if the request resulted in an error
      * @param request an instance of ArchiveRequest - the body to be sent
      * @return the ID of the archive if the operation was successful
-     * @throws Exception if the request resulted in an error response from the endpoint
+     * @throws LegalArchiveException if the request resulted in an error response from the endpoint
      */
 
     @Throws(Exception::class)
@@ -29,13 +30,9 @@ class RestArchiver(var username: String, var password: String, var url: String) 
         logger.debug("Request: {}:", request.toString())
         logger.debug("Response: {}", response.toString())
 
-        when (result) {
-            is Failure -> {
-                throw result.getException().exception
-            }
-            is Success -> {
-                return mapper.readTree(result.get()).get("id").asText()
-            }
+        return when (result) {
+            is Failure -> result.getException().exception.let { throw LegalArchiveException(it.localizedMessage, it) }
+            is Success -> mapper.readTree(result.get()).get("id").asText()
         }
     }
 
@@ -44,3 +41,8 @@ class RestArchiver(var username: String, var password: String, var url: String) 
         @JvmStatic val mapper = jacksonObjectMapper()
     }
 }
+
+class LegalArchiveException(
+    override val message: String,
+    override val cause: Throwable
+) : RuntimeException(message, cause)
