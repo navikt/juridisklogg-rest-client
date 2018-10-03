@@ -1,10 +1,9 @@
 package no.nav.common.juridisklogg.client
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result.Success
 import com.github.kittinunf.result.Result.Failure
-import org.slf4j.LoggerFactory
 import java.lang.Exception
 import java.lang.RuntimeException
 
@@ -21,14 +20,11 @@ class RestArchiver(private val username: String, private val password: String, p
 
     @Throws(Exception::class)
     fun archiveDocument(archiveRequest: ArchiveRequest): String {
-        val (request, response, result) = Fuel.post(url)
-            .header("Content-Type" to "application/json")
-            .body(mapper.writeValueAsString(archiveRequest))
+        val (_, _, result) = url.httpPost()
+            .body(mapper.writeValueAsString(archiveRequest), Charsets.UTF_8)
+            .header(mapOf("Content-Type" to "application/json"))
             .authenticate(username, password)
-            .response()
-
-        logger.debug("Request: {}:", request.toString())
-        logger.debug("Response: {}", response.toString())
+            .responseString()
 
         return when (result) {
             is Failure -> result.getException().exception.let { throw LegalArchiveException(it.localizedMessage, it) }
@@ -37,7 +33,6 @@ class RestArchiver(private val username: String, private val password: String, p
     }
 
     companion object {
-        @JvmStatic private val logger = LoggerFactory.getLogger(RestArchiver::class.java)
         @JvmStatic val mapper = jacksonObjectMapper()
     }
 }

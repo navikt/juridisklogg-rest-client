@@ -29,22 +29,22 @@ object ArchiveRequestSpec : Spek({
             data("request with required parameters only",
                 ArchiveRequest.Builder().setMessageId(id).setMessageContent(content).setSender(sender)
                     .setReceiver(receiver).build(),
-                expected = "{\"meldingsId\":\"$id\",\"avsender\":\"$sender\",\"mottaker\":\"$receiver\",\"meldingsInnhold\":\"$contentEncoded\"}"
+                expected = """{"meldingsId":"$id","avsender":"$sender","mottaker":"$receiver","meldingsInnhold":"$contentEncoded"}"""
             ),
             data("request with required parameters and joark reference",
                 ArchiveRequest.Builder().setMessageId(id).setMessageContent(content).setSender(sender)
                     .setReceiver(receiver).setJoarkRef(joarkRef).build(),
-                expected = "{\"meldingsId\":\"$id\",\"avsender\":\"$sender\",\"mottaker\":\"$receiver\",\"meldingsInnhold\":\"$contentEncoded\",\"joarkRef\":\"$joarkRef\"}"
+                expected = """{"meldingsId":"$id","avsender":"$sender","mottaker":"$receiver","meldingsInnhold":"$contentEncoded","joarkRef":"$joarkRef"}"""
             ),
             data("request with required parameters and retention",
                 ArchiveRequest.Builder().setMessageId(id).setMessageContent(content).setSender(sender)
                     .setReceiver(receiver).setRetention(retention).build(),
-                expected = "{\"meldingsId\":\"$id\",\"avsender\":\"$sender\",\"mottaker\":\"$receiver\",\"meldingsInnhold\":\"$contentEncoded\",\"antallAarLagres\":$retention}"
+                expected = """{"meldingsId":"$id","avsender":"$sender","mottaker":"$receiver","meldingsInnhold":"$contentEncoded","antallAarLagres":$retention}"""
             ),
             data("request with all parameters",
                 ArchiveRequest.Builder().setMessageId(id).setMessageContent(content).setSender(sender)
                         .setReceiver(receiver).setJoarkRef(joarkRef).setRetention(retention).build(),
-                expected = "{\"meldingsId\":\"$id\",\"avsender\":\"$sender\",\"mottaker\":\"$receiver\",\"meldingsInnhold\":\"$contentEncoded\",\"joarkRef\":\"$joarkRef\",\"antallAarLagres\":$retention}"
+                expected = """{"meldingsId":"$id","avsender":"$sender","mottaker":"$receiver","meldingsInnhold":"$contentEncoded","joarkRef":"$joarkRef","antallAarLagres":$retention}"""
             )
         ) { _, request, expected ->
             it("should correctly serialize to JSON") {
